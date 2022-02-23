@@ -48,6 +48,9 @@
                 <div class="col-md-6">
                     <div class="card" style="border-radius: 15px; padding: .8em">
                         <div class="card-body">
+                            @php
+                                $application = $application[0];
+                            @endphp
                             <h6><strong>Applicant Information</strong></h6>
                             <table class="table table-bordered">
                                 <tbody>
@@ -127,10 +130,7 @@
                                     <td><strong>KCSE Mean Grade</strong></td>
                                     <td>{{ $application->kcse_mean_grade }}</td>
                                 </tr>
-                                <tr>
-                                    <td><strong>KCSE Certificate</strong></td>
-                                    <td>{{ $application->kcse_certificate }}</td>
-                                </tr>
+                                
                                 <tr>
                                     <td><strong>KCPE Year</strong></td>
                                     <td>{{ $application->kcpe_year }}</td>
@@ -144,8 +144,16 @@
                                     <td>{{ $application->kcpe_mean_grade }}</td>
                                 </tr>
                                 <tr>
+                                    <td><strong>KCSE Certificate</strong></td>
+                                    <td>
+                                        <iframe src="{{ asset('kcse_certificates/'.$application->kcse_certificate) }}" frameborder="0"></iframe>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><strong>KCPE Certificate</strong></td>
-                                    <td>{{ $application->kcpe_certificate }}</td>
+                                    <td>
+                                        <iframe src="{{ asset('kcpe_certificates/'.$application->kcpe_certificate) }}" frameborder="0"></iframe>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -159,23 +167,11 @@
                         <tbody>
                             <tr>
                                 <td><strong>Course</strong></td>
-                                <td>{{ $application->class->code." ".$application->class->course->name }}</td>
+                                <td>{{ $application->code." ".$application->course }}</td>
                             </tr>
                             <tr>
                                 <td><strong>Start date</strong></td>
-                                <td>{{ date("j M, Y", strtotime($application->class->start_date)) }}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
+                                <td>{{ date("j M, Y", strtotime($application->start_date)) }}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -72,9 +72,9 @@
                             <tr>
                                 <td>{{++$i}}</td>
                                 <td>{{$value->first_name." ".$value->last_name." ".$value->surname}}</td>
-                                {{-- <td>{{ date("Y", strtotime($value->class->start_date))." ".$class->course->name }}</td> --}}
-                                <td>{{ $value->years }}</td>
-                                <td>{{ $value->semesters_per_year }}</td>
+                                <td>{{ date("Y", strtotime($value->start_date))." ".$value->course }}</td>
+                                <td>{{ $value->class }}</td>
+                                <td>{{ $value->kcse_mean_grade }}</td>
                                 <td>
                                     <li class="dropdown-toggle">
                                         <a href="#" data-bs-toggle="dropdown" class="btn btn-primary btn-sm">Action</a>
