@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class DeferementController extends Controller
 {
-    public $deferemnt;
+    public $deferment;
     public function __construct()
     {
         $this->middleware('auth');
@@ -15,7 +15,12 @@ class DeferementController extends Controller
     }
     public function index()
     {
-        $deferments = $this->deferemnt->with('student')->latest()->get();
+        if (auth()->user()->type === "administrator") {
+            $deferments = $this->deferment->with('student')->latest()->get();
+        }else {
+            $user = auth()->user();
+            $deferments = $user->deferments;;
+        }
         return view('defers.index', compact('deferments'));
     }
 
@@ -25,46 +30,36 @@ class DeferementController extends Controller
         return view('defers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $deferments = $this->deferment->where('user_id',auth()->id())->where('status','<>','reinstated')->get();
+        if ($deferments->count() > 0) {
+            return redirect()->back()->withErrors(['You have an active deferment/Application']);
+        }
+        $validated = $this->deferment->validate($request);
+        $deferment = $this->deferment->create(['user_id'=>auth()->id(),'status'=>"pending"]+$validated);
+        return redirect()->back()->with('success', 'Deferment stored successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function approve($id)
+    {
+        $deferment = $this->deferment->find($id);
+        $deferment->update(['status'=>'approved']);
+        // send notification
+        return redirect()->back()->with('success','Deferement approved successfully');
+    }
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //

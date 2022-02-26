@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Application::class, 'user_id', 'id');
     }
+
+    public function deferments()
+    {
+        return $this->hasMany(Deferment::class, 'user_id', 'id');
+    }
 }

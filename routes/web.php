@@ -3,7 +3,9 @@
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DeferementController;
 use App\Http\Controllers\StudentController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,6 +26,9 @@ Route::post('classes/update', [ClassesController::class, 'update'])->name('class
 
 Route::resource('applications', ApplicationController::class);
 Route::get('applications-select/{q}', [ApplicationController::class, 'select'])->name("application.select");
-Route::get('application.register/{q}', [ApplicationController::class, 'register'])->name('application.register');
+Route::get('application.register/{q}', [ApplicationController::class, 'register'])->name('appication.register');
 
 Route::resource('students',StudentController::class);
+
+Route::resource('deferments', DeferementController::class);
+Route::resource('deferment-approve/{q}', [DeferementController::class, 'approve'])->name('deferment.approve');
